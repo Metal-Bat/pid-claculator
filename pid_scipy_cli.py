@@ -3,8 +3,8 @@ import numpy as np
 from scipy import signal
 
 # Get user input for numerator and denominator coefficients
-numerator_coefficients = list(map(int, input("Enter numerator coefficients separated by space: ").split()))
-denominator_coefficients = list(map(int, input("Enter denominator coefficients separated by space: ").split()))
+numerator_coefficients = list(map(float, input("Enter numerator coefficients separated by space: ").split()))
+denominator_coefficients = list(map(float, input("Enter denominator coefficients separated by space: ").split()))
 
 # Define the transfer function
 sys = signal.TransferFunction(numerator_coefficients, denominator_coefficients)
