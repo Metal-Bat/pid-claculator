@@ -33,27 +33,45 @@ Tp = 3.4 * L
 values = f"a: {a}\nL: {L}\nP: {P}\nTi: {Ti}\nTd: {Td}\nTp: {Tp}\n"
 print(values)
 
-# Plot step response
 plt.style.use("cyberpunk")
 
-plt.plot(t, y)
+figure, axis = plt.subplots(2)
+
 plt.xlabel("Time (s)")
 plt.ylabel("Output")
 plt.title("Step Response of the system")
-plt.axvline(x=0, color="k")
-plt.axhline(y=0, color="k")
 
+# Plot step response
+first_axis = axis[0]
+first_axis.plot(t, y)
+first_axis.axvline(x=0, color="k")
+first_axis.axhline(y=0, color="k")
 # Add a line for the largest slope
-plt.plot(t, slope * (t - t[i]) + y[i], "r--")
-plt.legend(["Response", "Largest slope"])
-
+first_axis.plot(t, slope * (t - t[i]) + y[i], "r--")
+first_axis.legend(["Response", "Largest slope"])
 # Plot point a and Annotate point a
-plt.scatter(0, a, color="purple", marker=".", s=50)
-plt.annotate("a", (0, a), textcoords="offset points", xytext=(-10, -2), ha="center")
-
+first_axis.scatter(0, a, color="purple", marker=".", s=50)
+first_axis.annotate("a", (0, a), textcoords="offset points", xytext=(-10, -2), ha="center")
 # Plot point L and Annotate point L
-plt.scatter(L, 0, color="green", marker=".", s=50)
-plt.annotate("L", (L, 0), textcoords="offset points", xytext=(0, -10), ha="center")
+first_axis.scatter(L, 0, color="green", marker=".", s=50)
+first_axis.annotate("L", (L, 0), textcoords="offset points", xytext=(0, -10), ha="center")
+
+
+# Plot the step response of the tuned transfer function with PID lines in axis[2]
+
+pid_tf = control.tf(
+    [P, P / Ti, P * Td],
+    [1, 1 / Ti, Td],
+)
+t2, y2 = control.step_response(pid_tf * tf)
+
+second_axis = axis[1]
+second_axis.plot(t2, y2)
+second_axis.axvline(x=0, color="k")
+second_axis.axhline(y=0, color="k")
+second_axis.set_xlabel("Time (s)")
+second_axis.set_ylabel("Output")
+second_axis.set_title("Tuned Step Response of the system")
 
 mplcyberpunk.add_glow_effects()
 
