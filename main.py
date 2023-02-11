@@ -25,10 +25,10 @@ a = y[i] - slope * t[i]
 # Find point L
 L = -a / slope
 
-P = 1.2 / a
-Ti = 2 * L
-Td = L / 2
-Tp = 3.4 * L
+P = 1.2 / abs(a)
+Ti = 2 * abs(L)
+Td = abs(L) / 2
+Tp = 3.4 * abs(L)
 
 values = f"a: {a}\nL: {L}\nP: {P}\nTi: {Ti}\nTd: {Td}\nTp: {Tp}\n"
 print(values)
@@ -57,7 +57,7 @@ first_axis.scatter(L, 0, color="green", marker=".", s=50)
 first_axis.annotate("L", (L, 0), textcoords="offset points", xytext=(0, -10), ha="center")
 
 
-# Plot the step response of the tuned transfer function with PID lines in axis[2]
+# Plot the step response of the tuned transfer function with PID lines in axis[1]
 
 pid_tf = control.tf(
     [P, P / Ti, P * Td],
